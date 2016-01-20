@@ -1,0 +1,78 @@
+extends ../partials/layout.jade
+
+block .main-content
+    .main-content
+
+        //- This displays the page title
+        
+        if node__txt__Page_Title
+            .row
+                .large-12.columns
+                    .page-title
+                        h1.page-title !{node__txt__Page_Title}
+
+        //- This displays the image
+        .row
+            .large-12.columns
+                if node__txt__Hero_Image
+                    img.mbm(src=node__txt__Hero_Image, alt=node__txt__Hero_Image_Alt)
+
+        .row
+            .medium-7.columns
+                if node__txt__Page_subTitle
+                    h3 !{node__txt__Page_subTitle}
+                if node__md__Welcome_Text
+                    !{node__md__Welcome_Text}
+                if node__txt__Page_secondSubTitle
+                    h3 !{node__txt__Page_secondSubTitle}
+                hr.mt0
+                .row
+                    .medium-4.columns
+                        if node__txt__Vacancy_Image_1
+                            img(src=node__txt__Vacancy_Image_1, alt=node__txt__Vacancy_Image_1_Alt)
+                    .medium-8.columns
+                        if node__txt__Vacancy_Title_1
+                            h4 !{node__txt__Vacancy_Title_1}
+                        if node__md__Vacancy_Text_1
+                            !{node__md__Vacancy_Text_1}
+                        if node__txt__Vacancy_buttonLink_1
+                            a(href=node__txt__Vacancy_buttonLink_1)
+                                .button !{node__txt__Vacancy_buttonName_1}
+                hr
+                .row
+                    .medium-4.columns
+                        if node__txt__Vacancy_Image_2
+                            img(src=node__txt__Vacancy_Image_2, alt=node__txt__Vacancy_Image_2_Alt)
+                    .medium-8.columns
+                        if node__txt__Vacancy_Title_2
+                            h4 !{node__txt__Vacancy_Title_2}
+                        if node__md__Vacancy_Text_2
+                            !{node__md__Vacancy_Text_2}
+                        if node__txt__Vacancy_buttonLink_2
+                            a(href=node__txt__Vacancy_buttonLink_2)
+                                .button !{node__txt__Vacancy_buttonName_2}
+                hr
+                .row
+                    .medium-4.columns
+                        if node__txt__Vacancy_Image_3
+                            img(src=node__txt__Vacancy_Image_3, alt=node__txt__Vacancy_Image_3_Alt)
+                    .medium-8.columns
+                        if node__txt__Vacancy_Title_3
+                            h4 !{node__txt__Vacancy_Title_3}
+                        if node__md__Vacancy_Text_3
+                            !{node__md__Vacancy_Text_3}
+                        if node__txt__Vacancy_buttonLink_3
+                            a(href=node__txt__Vacancy_buttonLink_3)
+                                .button !{node__txt__Vacancy_buttonName_3}
+                    
+            .medium-5.columns.mtm 
+                //- Show the Latest Blogs
+                include mixins/latest_blogs.jade
+                +latest--blogs()
+
+                .box--container.pbm 
+                    if node__txt__whyBook_Title
+                        h3.underline !{node__txt__whyBook_Title}
+                    if node__md__whyBook_List
+                        !{node__md__whyBook_List}
+

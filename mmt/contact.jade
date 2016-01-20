@@ -1,0 +1,32 @@
+extends ../partials/layout.jade
+
+block .main-content
+    .main-content
+        if node__txt__Page_Title
+            .row
+                .large-12.columns
+                    .page-title
+                        h1.page-title !{node__txt__Page_Title}
+        .row
+            .large-8.columns
+                !{node__md__Main_Content}
+                #wufoo-q1fpwd5w1kthm55
+                    script(type='text/javascript')
+                        var q1fpwd5w1kthm55;(function(d, t) {
+                        var s = d.createElement(t), options = {
+                        'userName':'blocmarketing',
+                        'formHash':'q1fpwd5w1kthm55',
+                        'autoResize':true,
+                        'height':'100',
+                        'async':true,
+                        'header':'hide'};
+                        s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'wufoo.com/scripts/embed/form.js';
+                        s.onload = s.onreadystatechange = function() {
+                        var rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;
+                        try { q1fpwd5w1kthm55 = new WufooForm();q1fpwd5w1kthm55.initialize(options);q1fpwd5w1kthm55.display(); } catch (e) {}};
+                        var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);
+                        })(document, 'script');
+            .large-4.columns
+                //- Show the Latest Blogs
+                include mixins/latest_blogs.jade
+                +latest--blogs()

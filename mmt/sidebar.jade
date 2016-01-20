@@ -1,0 +1,21 @@
+extends ../partials/layout.jade
+
+block .main-content
+    .main-content
+        if node__txt__Page_Title
+            .row
+                .large-12.columns
+                    .page-title
+                        h1.page-title !{node__txt__Page_Title}
+
+        .row
+            .large-8.columns
+                if node__md__Main_Content
+                    !{node__md__Main_Content}
+            .large-4.columns
+                //- Show the Latest Blogs
+                include mixins/latest_blogs.jade
+                +latest--blogs-3()
+
+                if node__md__Sidebar
+                    !{node__md__Sidebar}

@@ -1,0 +1,107 @@
+extends ../partials/layout.jade
+
+block .main-content
+    .main-content
+        //- This displays the slider
+        .row
+            .large-12.columns
+                include mixins/slider.jade
+                +slider--homepage()
+                .homepage-searchbar
+                    .tabs
+                        .tab
+                            input#tab-1(type="radio", name="tab-group-1", checked="")
+                            label(for="tab-1") Find a Holiday
+                            .content
+                                form#holiday-form(action='/results', method="get")
+                                    fieldset.holidayType
+                                        span.search-label Select a holiday type:
+                                        select.home-search(name='HolidayType')
+                                            option(value='') All
+                                    
+                                    fieldset.continent
+                                        span.search-label Choose a region:
+                                        select.home-search(name='Continent')
+                                            option(value='') All
+                                    
+                                    fieldset.country
+                                        span.search-label Choose a country:
+                                        select.home-search(name='Country')
+                                            option(value='') All
+                                    
+                                    fieldset.date
+                                        span.search-label When would you like to go?
+                                        select#holidayMonth.home-search(name='Month')
+                                            option(value='') All
+                                    
+                                    input(type='hidden', name='page', value='1')
+                                    
+                                    div.text-center
+                                        input.button(type='submit', value='Search')
+                        .tab
+                            input#tab-2(type="radio", name="tab-group-1")
+                            label(for="tab-2") Find a Cruise
+                            .content
+                                form#cruise-form(action='/cruise-results', method="get")
+                                    fieldset.cruiseMonth
+                                        span.search-label When would you like to go?
+                                        select#cruiseMonth.home-search(name='CruiseMonth')
+                                            option(value='') All
+                                    
+                                    fieldset.cruiseType
+                                        span.search-label Select a cruise type:
+                                        select.home-search(name='CruiseType')
+                                            option(value='') All
+                                    
+                                    fieldset.cruiseDestination
+                                        span.search-label Where would you like to go?
+                                        select.home-search(name='CruiseDestination')
+                                            option(value='') All
+                                    
+                                    fieldset.cruiseLine
+                                        span.search-label Cruise Line:
+                                        select.home-search(name='CruiseLine')
+                                            option(value='') All
+                                    
+                                    input(type='hidden', name='page', value='1')
+                                    
+                                    div.text-center
+                                        input.button(type='submit', value='Search')
+
+        .row
+            .medium-6.columns
+                .grey--container.pbm
+                    if node__txt__Page_Title
+                        h1.page-title-small !{node__txt__Page_Title}
+
+                    if node__md__Left_Column
+                        !{node__md__Left_Column}
+
+                    #main.mbm
+                        ul#content
+                            li
+
+                    a#feefologoa.trackable(category='Feefo', action='Logo-click', href='javascript:FeefoToggle("popup");')
+                        | &#62; Read all our reviews here
+
+                //- Show the Download Travel Talk section
+                include mixins/download_travel_talk.jade
+                +download--travel--talk()
+
+                //- Show the Stay Updated section
+                include mixins/stay_updated.jade
+                +stay--updated()
+
+            .medium-6.columns
+                //- Show the Special Offers section
+                include mixins/special_offers.jade
+                +special--offers()
+
+                //- Show the Latest Blogs
+                include mixins/latest_blogs.jade
+                +latest--blogs()
+
+append scripts
+    script(type='text/javascript', src="/assets/js/generalHelpers.js")
+    script(type='text/javascript', src='/assets/js/cruiseSearch.js')
+    script(type='text/javascript', src='/assets/js/holidaySearch.js')

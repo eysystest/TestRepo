@@ -1,0 +1,97 @@
+extends ../partials/layout.jade
+
+block .main-content
+    query = Request.query()
+    .row
+        .large-12.columns
+            h1.page-title Choose your Cruise
+
+            - searchBuilder = { "size": 8, "from": 0 }  
+            
+            - searchBuilder.aggregations = { "CruiseMonth": { "sortField": "KEY" }, "CruiseType": { "sortField": "KEY" }, "CruiseDestination": { "sortField": "KEY" },  "CruiseLine": { "sortField": "KEY" } }
+            
+            - searchBuilder.types = [ "Cruises" ]
+            - searchBuilder.exactMatch = new('java.util.HashMap')
+            
+            if !query.isEmpty()
+                - searchBuilder.from = (util.asInteger(query["page"]) * 8) - 8
+               
+                - currentQuery = "?CruiseMonth=" + util.encode(query["CruiseMonth"]) + "&CruiseType=" + util.encode(query["CruiseType"]) + "&CruiseDestination=" + util.encode(query["CruiseDestination"]) + "&CruiseLine=" + util.encode(query["CruiseLine"]) + "&page="
+                
+                - prevPage = util.asInteger(query["page"])-1
+                - nextPage = util.asInteger(query["page"])+1
+                
+                if util.encode(query["CruiseMonth"])
+                    - searchBuilder.exactMatch.CruiseMonth = query["CruiseMonth"]
+
+                if util.encode(query["CruiseType"])
+                    - searchBuilder.exactMatch.CruiseType = query["CruiseType"]
+
+                if util.encode(query["CruiseDestination"])
+                    - searchBuilder.exactMatch.CruiseDestination = query["CruiseDestination"]
+
+                if util.encode(query["CruiseLine"])
+                    - searchBuilder.exactMatch.CruiseLine = query["CruiseLine"]
+            
+            else
+                - searchBuilder.exactMatch.CruiseMonth = ""
+                - searchBuilder.exactMatch.CruiseType = ""
+                - searchBuilder.exactMatch.CruiseDestination = ""
+                - searchBuilder.exactMatch.CruiseLine = ""
+                - searchBuilder.from = 0
+                - prevPage = 0
+                - nextPage = 2
+                - currentQuery = "?CruiseMonth=&CruiseType=&CruiseDestination=&CruiseLine=&page="
+
+            - results = Search.query(searchBuilder)
+
+            include mixins/pagination.jade
+
+            #cruise-results
+                +pagination(searchBuilder)
+                ul.no-margin.no-markers
+                    for cruise in results.hits
+                        li
+                            - cruiseAttribute = cruise.attributes
+                            - cruiseTripName = cruiseAttribute.CruiseName ? cruiseAttribute.CruiseName.toLowerCase().replaceAll('[\W .-]+','-').replaceAll('[\-]$', '').replaceAll(' +','-') : cruiseAttribute.CruiseName.toLowerCase()
+                            - cruiseUrl = '/itineraries' + '/' + cruiseTripName
+                            .box--container--results
+                                .row
+                                    .medium-4.columns
+                                        a(href=cruiseUrl)
+                                            img(src='!{cruiseAttribute.Thumbnail}', alt='!{cruiseAttribute.CruiseName}')
+                                    .medium-8.columns
+                                        a.underlined-title(href=cruiseUrl) !{cruiseAttribute.CruiseName}
+                                        p.purple !{cruiseAttribute.Highlights}
+                                        ul.results
+                                            if cruiseAttribute.CruiseLine
+                                                li: b Cruise Line: 
+                                                    span.results !{cruiseAttribute.CruiseLine}
+                                            if cruiseAttribute.DepartureDate
+                                                li: b Departure Date: 
+                                                    span.results !{cruiseAttribute.DepartureDate}
+                                            if cruiseAttribute.CruiseDuration
+                                                li: b Cruise Duration: 
+                                                    span.results !{cruiseAttribute.CruiseDuration} 
+                                                        | days
+                                            
+                                            - cruiseName = cruiseAttribute.CruiseName
+
+                                            - searchBuilder = {"from": 0 }
+                                            //- Builds up results where the name matches exactly and the sort column equals 1
+                                            - searchBuilder.excludeTypes = ['Itineraries']
+                                            - searchBuilder.exactMatch = new('java.util.HashMap')
+                                            - searchBuilder.exactMatch['CRUISE NAME']=cruiseName
+                                            - searchBuilder.exactMatch['SORT']=['1']
+                                            - results = Search.query(searchBuilder)
+
+                                            for cabin in results.hits
+                                                - attributes = cabin.attributes
+                                                li: b Price: 
+                                                    span.results=attributes['PRICE_String']
+
+
+                +pagination(searchBuilder)
+
+append scripts
+    script(src="/assets/js/generalHelpers.js")
