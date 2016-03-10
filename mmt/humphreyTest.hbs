@@ -1,0 +1,30 @@
+{{>breadcrumbs}}
+<div id="gadget-outlet" data-title="{{title}} | gadgetbuddy.com" data-description="{{node__html__pageDescription}}" data-keywords="{{node__html__pageKeywords}}" data-ogimage="{{node__html__ogImage}}">
+  <div class="row">
+    <div class="col-md-9">
+      <div class="panel">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-12">
+              <h2 class="clear-margin">{{title}}</h2>
+            </div>
+            <div class="col-xs-12">
+
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          {{{formatMarkdown(post)}}}
+        </div>
+        <div class="panel-body">
+          <a class="btn-social facebook" href="https://www.facebook.com/sharer/sharer.php?u={{encodeURIComponent('https://gadgetbuddy.com'+path.url)}}" target="_blank"><img src="/assets/images/socialmedia/facebook-logo-white.png" /><span>Share</span></a>
+          <a class="btn-social twitter" href="https://twitter.com/intent/tweet?text=https://gadgetbuddy.com/{{path.url}}%20via%20@gadgetbuddyuk"><img src="/assets/images/socialmedia/twitter-logo-white.png" /> Tweet</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div id="sidebar-outlet" class="hidden-xs hidden-sm">
+      </div>
+    </div>
+  </div>
+</div>
